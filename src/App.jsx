@@ -1,35 +1,31 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import ItemListContainer from './components/ItemListContainer/ItemListContainer';
+import ItemDetailContainer from './components/ItemDetailContainer/ItemDetailContainer';
+import NavBar from './components/NavBar/NavBar';
+import PageNotFound from './pages/PageNotFound';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import CartContainer from './components/CartContainer/CartContainer';
+import { CartContextProvider } from './context/cartContext';
+import OrderDetail from './components/OrderDetail/OrderDetail';
+import Footer from './components/Footer/Footer';
 
 function App() {
-  const [count, setCount] = useState(0)
-
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <CartContextProvider>
+      <BrowserRouter>
+        <NavBar />
+
+        <Routes>
+          <Route path="/" element={<ItemListContainer />} />
+          <Route path="/category/:categoryid" element={<ItemListContainer />} />
+          <Route path="/item/:itemid" element={<ItemDetailContainer />} />
+          <Route path="/cart" element={<CartContainer />} />
+          <Route path="/orders/:orderid" element={<OrderDetail />} />
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
+        <Footer />        
+      </BrowserRouter>
+    </CartContextProvider>
+  );
 }
 
-export default App
+export default App;
